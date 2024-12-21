@@ -49,7 +49,7 @@ curl -X POST -H "Content-Type: application/json" -d '{"loan_id": "45e3d15cb313d7
 # Deployment Repository for the Classification Case Study
 The repository hosts a model that predicts the probability of default on a purchase made with the Pay Later payment method.
 
-The model development repository can be found here.  
+The model development repository can be found [here](https://github.com/polinaknutssonklarna/model_development).  
 
 
 ## Running the Model in a Local Environment
@@ -80,5 +80,9 @@ curl -X POST -H "Content-Type: application/json" -d '{"loan_issue_date": "2023-0
 ```
 
 
-
-The model 
+## Features
+The list of features
+```
+loan_amount
+TBC
+```
