@@ -33,7 +33,7 @@ curl -X POST -H "Content-Type: application/json" -d '{"loan_issue_date": "2023-0
 
 
 ## Features
-The list of features
+The list of features:
 ```
 amount_repaid_14d
 amount_repaid_1y
