@@ -35,6 +35,29 @@ curl -X POST -H "Content-Type: application/json" -d '{"loan_issue_date": "2023-0
 ## Features
 The list of features
 ```
+amount_repaid_14d
+amount_repaid_1y
+amount_repaid_3m
+days_since_first_loan
+existing_debt_missing
+existing_klarna_debt
 loan_amount
-TBC
+loan_to_debt_ratio
+months_to_card_expiration
+new_exposure_14d
+new_exposure_14d_to_debt
+new_exposure_7d
+new_exposure_7d_to_debt
+num_active_loans
+num_conf_payments_6m_to_num_loans
+num_confirmed_payments_3m
+num_failed_payments_1y
+num_failed_payments_3m
+num_failed_payments_6m
+repayment_14d_to_debt
+repayment_1m_to_debt
+repayment_1y_to_debt
+repayment_3m_to_debt
+merchant_category
+merchant_group
 ```
