@@ -6,3 +6,4 @@
 
 .venv
 .elasticbeanstalk
+.DS_Store
