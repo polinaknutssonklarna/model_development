@@ -10,11 +10,11 @@ import logging
 
 # Define the feature_engineering function
 def feature_engineering(df):
+
     # Create target variable
     df['default'] = (df.amount_outstanding_21d > 0).astype(int)
 
     # Ensure loan_issue_date is datetime 
-    
     df['loan_issue_date'] = pd.to_datetime(df['loan_issue_date'], errors='coerce')
 
     # Combine year and month for card expiration
@@ -28,7 +28,7 @@ def feature_engineering(df):
         errors='coerce'
     )
 
-    # Calculate the difference in months
+    # Calculate number months to card expiration date
     df['months_to_card_expiration'] = np.where(
         df['card_expiry_date'].notna() & df['loan_issue_date'].notna(),
         (df['card_expiry_date'].dt.year - df['loan_issue_date'].dt.year) * 12 +
@@ -45,9 +45,6 @@ def feature_engineering(df):
     # Replace missing values for existing_klarna_debt with 0
     df['existing_klarna_debt'] = df['existing_klarna_debt'].fillna(0)
 
-    # Create a missingness flag for card expiry date
-    df['card_expiry_missing'] = df['card_expiry_month'].isnull().astype(int)
-
     # Loan_to_debt_ratio
     df['loan_to_debt_ratio'] = df['loan_amount'] / (df['existing_klarna_debt'] + df['loan_amount'])
 
@@ -59,12 +56,11 @@ def feature_engineering(df):
 
     # Repayment to total debt
     df['repayment_1y_to_debt'] = (df['amount_repaid_1y'] / (df['existing_klarna_debt'] + df['loan_amount']))
-    df['repayment_6m_to_debt'] = (df['amount_repaid_6m'] / (df['existing_klarna_debt'] + df['loan_amount']))
     df['repayment_3m_to_debt'] = (df['amount_repaid_3m'] / (df['existing_klarna_debt'] + df['loan_amount']))
     df['repayment_1m_to_debt'] = (df['amount_repaid_1m'] / (df['existing_klarna_debt'] + df['loan_amount']))
     df['repayment_14d_to_debt'] = (df['amount_repaid_14d'] / (df['existing_klarna_debt'] + df['loan_amount']))
 
-    # Repayment_rate variations
+
     epsilon = 1e-5  # Small constant
 
     # Ratio of confirmed payments to active loans
@@ -92,8 +88,6 @@ def feature_engineering(df):
     return df
 
 
-
-
 # Load the saved pipeline
 model_file = 'final_model_pipeline.pkl'
 
@@ -101,7 +95,7 @@ with open(model_file, 'rb') as f_in:
     final_pipeline = pickle.load(f_in)
 
 # Initialize Flask app
-app = Flask('churn')
+app = Flask('default_prediction')
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -129,14 +123,11 @@ def predict():
 
         # Make predictions
         default_prob = float(final_pipeline.predict_proba(customer_df)[0, 1])
-        #default = default_prob >= 0.5
+        
 
         # Prepare response
         result = {
-            'default_probability': round(default_prob, 3) #,
-            #'default': bool(default)
-
-            
+            'default_probability': round(default_prob, 3) 
         }
 
         logging.info(f"Prediction result: {result}")
