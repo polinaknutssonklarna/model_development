@@ -1,5 +1,5 @@
 # Model development
-
+ 
 This repository describes model development:
 - `1_explore_data.ipynb` explores data to define the target variable and generate feature engineering ideas 
 - `2_select_modeling_technique.ipynb` compares Logistic Regression, Random Forest and Gradient Boosted Trees models to select one for further development
